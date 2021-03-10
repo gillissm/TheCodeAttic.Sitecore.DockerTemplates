@@ -55,5 +55,5 @@ jobs:
         env:
           NUGET_TOKEN: ${{ secrets.NUGET_API_KEY}}
         run: | 
-        nuget setApiKey ${NUGET_TOKEN}
-        nuget push TheCodeAttic.Sitecore.DockerTemplates.${TAG_VERSION}.nupkg -Source ${NUGET_URL}
+          nuget setApiKey ${NUGET_TOKEN}
+          nuget push TheCodeAttic.Sitecore.DockerTemplates.${TAG_VERSION}.nupkg -Source ${NUGET_URL}
