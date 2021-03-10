@@ -32,21 +32,6 @@
             "description": "SC 9.3"
           }
         ]
-      },
-      "rename100":{
-        "type": "derived",
-        "valueSource": "name",
-        "replaces": "SC10_0"
-      },
-      "rename101":{
-        "type": "derived",
-        "valueSource": "name",
-        "replaces": "SC10_1"
-      },
-      "rename93":{
-        "type": "derived",
-        "valueSource": "name",
-        "replaces": "SC9_3"
       }
     },
     "sources": [
