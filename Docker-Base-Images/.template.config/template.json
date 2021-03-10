@@ -1,0 +1,92 @@
+{
+  "$schema": "http://json.schemastore.org/template",
+  "author": "Scott Gillis",
+  "classifications": [
+    "Docker",
+    "Sitecore",
+    "Template"
+  ],
+  "identity": "XP.5.Docker.BaseTemplate",
+  "name": "XP.5.Docker.BaseTemplate",
+  "description": "Folder structure, dockerfiles, and docker-compose to be used for creating base (or organization) images that can later be leveraged by teams to create project specific images. Sample asset copying instructions are included in the dockerfile for each image. The parameter '-sv' allows for the creation of a structure specific to a Sitecore version.",
+  "shortName": "sc-dockerbase",
+  "tags": {
+    "language": "docker",
+    "type": "project"
+  },
+  "preferNameDirectory": false,
+  "sourceName": "TEMP_FOLDER",
+  "symbols": {
+    "sc-version": {
+      "type": "parameter",
+      "datatype": "choice",
+      "defaultValue": "10_1",
+      "isRequired": false,
+      "choices": [
+        {
+          "choice": "10_0",
+          "description": "SC 10.0 update 1"
+        },
+        {
+          "choice": "10_1",
+          "description": "SC 10.1 update 0"
+        },
+        {
+          "choice": "9_3",
+          "description": "SC 9.3"
+        }
+      ]
+    }
+  },
+  "sources": [
+    {
+      "modifiers": [
+        {
+          "condition": "(sc-version == '10_0')",
+          "include": ["SC10_0/**/**/**"],
+          "exclude": [
+            "**/[Bb]in/**",
+            "**/[Oo]bj/**",
+            ".template.config/**/*",
+            "**/*.filelist",
+            "**/*.user",
+            "**/*.lock.json",
+            "**/SC10_1/**",
+            "**/SC9_3/**"
+          ],
+          "rename": {"SC10_0": "TEMP_FOLDER"}
+        },
+        {
+          "condition": "(sc-version == '10_1')",
+          "include": ["SC10_1/**/**/**"],
+          "exclude": [
+            "**/[Bb]in/**",
+            "**/[Oo]bj/**",
+            ".template.config/**/*",
+            "**/*.filelist",
+            "**/*.user",
+            "**/*.lock.json",
+            "**/SC10_0/**",
+            "**/SC9_3/**"
+          ],
+          "rename": {"SC10_1": "TEMP_FOLDER"}
+        },
+        {
+          "condition": "(sc-version == '9_3')",
+          "include": ["SC9_3/**/**/**"],
+          "exclude": [
+            "**/[Bb]in/**",
+            "**/[Oo]bj/**",
+            ".template.config/**/*",
+            "**/*.filelist",
+            "**/*.user",
+            "**/*.lock.json",
+            "**/SC10_1/**",
+            "**/SC10_0/**"
+          ],
+          "rename": {"SC9_3": "TEMP_FOLDER"}
+        }
+      ]
+    }
+  ]
+}

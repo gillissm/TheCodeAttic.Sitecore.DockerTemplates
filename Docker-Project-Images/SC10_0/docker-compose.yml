@@ -1,0 +1,35 @@
+version: "3.8"
+
+services:
+  mssql:
+    image: ${REGISTRY}${COMPOSE_PROJECT_NAME}${SQL_IMAGE_NAME:--mssql}:${VERSION:-latest}
+    build:
+      context: ${SERVICES_PATH}/mssql
+      args:
+        BASE_IMAGE: ${REGISTRY}${SQL_BASE_IMAGE}
+        SOLUTION_IMAGE: ${REGISTRY}${SOLUTION_ASSET_IMAGE}
+  
+  solr:
+    image: ${REGISTRY}${COMPOSE_PROJECT_NAME}${SOLR_IMAGE_NAME:--solr}:${VERSION:-latest}
+    build:
+      context: ${SERVICES_PATH}/solr
+      args:
+        BASE_IMAGE: ${REGISTRY}${SOLR_BASE_IMAGE}
+        SOLR_CORE_NAMES: ${SOLR_CORE_NAMES}
+        SOLUTION_IMAGE: ${REGISTRY}${SOLUTION_ASSET_IMAGE}
+
+  cd:
+    image: ${REGISTRY}${COMPOSE_PROJECT_NAME}${CD_IMAGE_NAME:--cd}:${VERSION:-latest}
+    build:
+      context: ${SERVICES_PATH}/cd
+      args:
+        BASE_IMAGE: ${REGISTRY}${CD_BASE_IMAGE}
+        SOLUTION_IMAGE: ${REGISTRY}${SOLUTION_ASSET_IMAGE}
+
+  cm:
+    image: ${REGISTRY}${COMPOSE_PROJECT_NAME}${CM_IMAGE_NAME:--cm}:${VERSION:-latest}
+    build:
+      context: ${SERVICES_PATH}/cm
+      args:
+        BASE_IMAGE: ${REGISTRY}${CM_BASE_IMAGE}
+        SOLUTION_IMAGE: ${REGISTRY}${SOLUTION_ASSET_IMAGE}
