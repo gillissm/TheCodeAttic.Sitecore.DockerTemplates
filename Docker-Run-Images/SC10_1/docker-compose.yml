@@ -170,7 +170,6 @@ services:
       Sitecore_ConnectionStrings_Xdb.MarketingAutomation.Operations.Client: http://xconnect
       Sitecore_ConnectionStrings_Xdb.MarketingAutomation.Reporting.Client: http://xconnect
       Sitecore_ConnectionStrings_Xdb.ReferenceData.Client: http://xconnect
-      Sitecore_License: ${SITECORE_LICENSE}
       Sitecore_Identity_Server_Authority: https://${ID_HOST}
       Sitecore_Identity_Server_InternalAuthority: http://id
       Sitecore_Identity_Server_CallbackAuthority: https://${CM_HOST}
@@ -221,7 +220,7 @@ services:
       Sitecore_Sitecore:XConnect:CollectionSearch:Services:XConnectSolrHealthCheckServicesConfiguration:Options:RequireHttps: 'false'
       Sitecore_Sitecore:XConnect:SearchIndexer:Services:Solr.SolrReaderSettings:Options:RequireHttps: 'false'
       Sitecore_Sitecore:XConnect:SearchIndexer:Services:Solr.SolrWriterSettings:Options:RequireHttps: 'false'
-      Sitecore_License: ${SITECORE_LICENSE}
+      SITECORE_LICENSE_LOCATION: C:\license
     volumes:
       - ${SITECORE_LICENSE_FOLDER}:c:\license
     entrypoint: powershell -Command "& C:\tools\entrypoints\iis\Development.ps1"
