@@ -134,6 +134,7 @@ services:
       resources:
         limits:
           memory: ${MEM_LIMIT_CD:-4gb}
+    entrypoint: powershell -Command "& C:\tools\entrypoints\iis\Development.ps1"
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.cd-secure.entrypoints=websecure"
