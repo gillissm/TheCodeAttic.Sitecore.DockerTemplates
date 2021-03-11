@@ -10,7 +10,7 @@
     <repository type="git" url="https://github.com/gillissm/TheCodeAttic.Sitecore.DockerTemplates"  />
     <!-- <iconUrl>http://icon_url_here_or_delete_this_line/</iconUrl> -->
     <description>This repository is provides a templated folder and file structure to allow a user to quickly start creating Sitecore docker images. The structure can be used directly via a clone of this repository, or installed into the dotnet-cli as a 'new' template command.</description>
-    <releaseNotes>Preview of the template, as deployment is tested</releaseNotes>
+    <releaseNotes>Fully Working Templates to support Sitecore 10.0.1 and 10.1.</releaseNotes>
     <copyright>2021 @ TheCodeAttic</copyright>
     <tags>docker sitecore template dotnet</tags>
     <packageTypes>
