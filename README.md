@@ -90,6 +90,14 @@ Finally, there is the template (maybe the most important of all) to provide the 
 dotnet new sc-dockerrun -n NameOfFolderToCreateIn
 ```
 
+To create a run template which supports Horizon call the new command with the '-E' or '--EnableHorizon' parameter.
+
+```powershell
+dotnet new sc-dockerrun -n NameOfFolderToCreateIn -E
+
+dotnet new sc-dockerrun -n NameOfFolderToCreateIn --EnableHorizon
+```
+
 ![creation of base templates](dockertemplate-5.png)
 
 Two key next steps after creating this template, is to a) update the Project.env so it points to the correct _Organization_ and _Project_ images to be ran, and b) to then execute init.ps1 to convert the 'Project.env' into a proper '.env' for docker-compose. Running the init.ps1 is required only the first time you setup your run structure.
