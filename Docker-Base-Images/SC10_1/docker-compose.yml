@@ -9,6 +9,14 @@ services:
         BASE_IMAGE: ${SITECORE_DOCKER_REGISTRY}${SQL_BASE_IMAGE}:${SITECORE_VERSION}
         SPE_IMAGE: ${SITECORE_MODULE_REGISTRY}${SPE_ASSET_IMAGE}
   
+  mssql-spe-hrz:
+    image: ${REGISTRY}${COMPOSE_PROJECT_NAME}/mssql-hrz:${VERSION:-latest}
+    build:
+      context: ${SERVICES_PATH}/mssql-hrz
+      args:
+        BASE_IMAGE: ${REGISTRY}${COMPOSE_PROJECT_NAME}/mssql-spe:${VERSION:-latest}
+        HRZ_IMAGE: ${SITECORE_MODULE_REGISTRY}${HRZ_ASSET_IMAGE}
+
   mssql-sxa:
     image: ${REGISTRY}${COMPOSE_PROJECT_NAME}/mssql-sxa:${VERSION:-latest}
     build:
@@ -16,7 +24,15 @@ services:
       args:
         BASE_IMAGE: ${REGISTRY}${COMPOSE_PROJECT_NAME}/mssql-spe:${VERSION:-latest}
         SXA_IMAGE: ${SITECORE_MODULE_REGISTRY}${SXA_ASSET_IMAGE}
-  
+
+  mssql-sxa-hrz:
+    image: ${REGISTRY}${COMPOSE_PROJECT_NAME}/mssql-sxa-hrz:${VERSION:-latest}
+    build:
+      context: ${SERVICES_PATH}/mssql-sxa
+      args:
+        BASE_IMAGE: ${REGISTRY}${COMPOSE_PROJECT_NAME}/mssql-hrz:${VERSION:-latest}
+        SXA_IMAGE: ${SITECORE_MODULE_REGISTRY}${SXA_ASSET_IMAGE}
+
   solr-init:
     image: ${REGISTRY}${COMPOSE_PROJECT_NAME}/solr-init:${VERSION:-latest}
     build:
@@ -66,12 +82,28 @@ services:
         TOOLING_IMAGE: ${SITECORE_TOOLS_REGISTRY}${SC_TOOLING_IMAGE}
         SMS_IMAGE: ${SITECORE_MODULE_REGISTRY}${SMS_ASSET_IMAGE}
 
+  cm-spe-hrz:
+    image: ${REGISTRY}${COMPOSE_PROJECT_NAME}/cm-hrz:${VERSION:-latest}
+    build:
+      context: ${SERVICES_PATH}/cm-hrz
+      args:
+        BASE_IMAGE: ${REGISTRY}${COMPOSE_PROJECT_NAME}/cm-spe:${VERSION:-latest}
+        HRZ_IMAGE: ${SITECORE_MODULE_REGISTRY}${HRZ_ASSET_IMAGE}
+
   cm-sxa:
     image: ${REGISTRY}${COMPOSE_PROJECT_NAME}/cm-sxa:${VERSION:-latest}
     build:
       context: ${SERVICES_PATH}/cm-sxa
       args:
         BASE_IMAGE: ${REGISTRY}${COMPOSE_PROJECT_NAME}/cm-spe:${VERSION:-latest}
+        SXA_IMAGE: ${SITECORE_MODULE_REGISTRY}${SXA_ASSET_IMAGE}
+
+  cm-sxa-hrz:
+    image: ${REGISTRY}${COMPOSE_PROJECT_NAME}/cm-sxa-hrz:${VERSION:-latest}
+    build:
+      context: ${SERVICES_PATH}/cm-sxa
+      args:
+        BASE_IMAGE: ${REGISTRY}${COMPOSE_PROJECT_NAME}/cm-hrz:${VERSION:-latest}
         SXA_IMAGE: ${SITECORE_MODULE_REGISTRY}${SXA_ASSET_IMAGE}
 
   xdbsearchworker:
