@@ -122,7 +122,7 @@ Set-EnvFileVariable "CD_HOST" -Value $CDHost
 #ID_HOST
 Set-EnvFileVariable "ID_HOST" -Value $IDHost
 
-if($IncludeHorizion){
+if($IncludeHorizion -or $HorizonHost -ne ""){
     # HRZ_HOST
     Set-EnvFileVariable "HRZ_HOST" -Value $HorizonHost
 }
@@ -159,7 +159,7 @@ try {
         }
     }
    
-   if($IncludeHorizion){
+   if($IncludeHorizion -or $HorizonHost -ne ""){
     Write-Host "Generating Traefik TLS certificates..." -ForegroundColor Green
     & $mkcert -install
     & $mkcert -cert-file cm.crt -key-file cm.key "$CMHost"
@@ -191,7 +191,7 @@ Write-Host "Adding Windows hosts file entries..." -ForegroundColor Green
 Add-HostsEntry $CMHost
 Add-HostsEntry $CDHost
 Add-HostsEntry $IDHost
-if($IncludeHorizion){
+if($IncludeHorizion -or $HorizonHost -ne ""){
     Add-HostsEntry $HorizonHost
 }
 
@@ -199,7 +199,7 @@ if($IncludeHorizion){
 Write-Host ""
 Write-Host "CM url $CMHost" -BackgroundColor Gray -ForegroundColor Magenta
 Write-Host "CD url $CDHost" -BackgroundColor Gray -ForegroundColor Magenta
-if($IncludeHorizion){
+if($IncludeHorizion -or $HorizonHost -ne ""){
     Write-Host "Horizon url $HorizonHost" -BackgroundColor Gray -ForegroundColor Magenta
 }
 

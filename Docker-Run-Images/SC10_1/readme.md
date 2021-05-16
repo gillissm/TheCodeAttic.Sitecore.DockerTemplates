@@ -20,6 +20,8 @@ docker login -u <USER NAME> -p <PASSWORD OR TOKEN> <REGISTRY>
 
 ```
 
+If the setup includes horizon you must use either of the following additional parameters _-HorizonHost_ or _-IncludeHorizon_.
+
 3. Start the containers via:
 
 ```powershell
@@ -32,4 +34,39 @@ docker-compose up -d
 
 ```powershell
 docker-compose down
+```
+
+## Optional Steps
+
+If the environment is to leverage Sitecore Horizon, then the following must be included in the as part of the parameter set for _init.ps1_.
+
+```powershell
+.\init.ps1 `
+-LicenseXmlPath C:\Sitcore-Versions\license\ `
+-ComposeProjectName TheCodeAttic.RainflyAdventures `
+-CMHost cm.rainflyadventures.test `
+-CDHost rainflyadventures.test `
+-IDHost id.rainflyadventures.test `
+-HorizonHost hrz.rainflyadventures.test
+
+# OR
+
+.\init.ps1 `
+-LicenseXmlPath C:\Sitcore-Versions\license\ `
+-ComposeProjectName TheCodeAttic.RainflyAdventures `
+-CMHost cm.rainflyadventures.test `
+-CDHost rainflyadventures.test `
+-IDHost id.rainflyadventures.test `
+-IncludeHorizon
+
+# OR 
+
+.\init.ps1 `
+-LicenseXmlPath C:\Sitcore-Versions\license\ `
+-ComposeProjectName TheCodeAttic.RainflyAdventures `
+-CMHost cm.rainflyadventures.test `
+-CDHost rainflyadventures.test `
+-IDHost id.rainflyadventures.test `
+-HorizonHost hrz.rainflyadventures.test `
+-IncludeHorizon
 ```
