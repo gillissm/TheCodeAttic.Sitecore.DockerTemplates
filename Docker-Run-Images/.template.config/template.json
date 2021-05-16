@@ -32,6 +32,12 @@
             "description": "SC 9.3"
           }
         ]
+      },
+      "EnableHorizon":{
+        "type": "parameter",
+        "dataType":"bool",
+        "defaultValue": "false",
+        "description": "Include this flag to use the Horizon based setup files."
       }
     },
     "sources": [
@@ -48,12 +54,13 @@
               "**/*.user",
               "**/*.lock.json",
               "**/SC10_1/**",
-              "**/SC9_3/**"
+              "**/SC9_3/**",
+              "*.hrz.*"
             ],
             "rename": {"SC10_0": "TEMP_FOLDER"}
           },
           {
-            "condition": "(sc-version == '10_1')",
+            "condition": "(sc-version == '10_1' && !EnableHorizon)",
             "include": ["SC10_1/**/**/**"],
             "exclude": [
               "**/[Bb]in/**",
@@ -63,9 +70,31 @@
               "**/*.user",
               "**/*.lock.json",
               "**/SC10_0/**",
-              "**/SC9_3/**"
+              "**/SC9_3/**",
+              "SC10_1/data/traefik/config/dynamic/certs_config.hrz.yaml",
+              "SC10_1/docker-compose.hrz.yml"
             ],
             "rename": {"SC10_1": "TEMP_FOLDER"}
+          },
+          {
+            "condition": "(sc-version == '10_1' && EnableHorizon)",
+            "include": ["SC10_1/**/**/**"],
+            "exclude": [
+              "**/[Bb]in/**",
+              "**/[Oo]bj/**",
+              ".template.config/**/*",
+              "**/*.filelist",
+              "**/*.user",
+              "**/*.lock.json",
+              "**/SC10_0/**",
+              "**/SC9_3/**",
+              "SC10_1/data/traefik/config/dynamic/certs_config.yaml",
+              "SC10_1/docker-compose.yml"
+            ],
+            "rename": {
+              "docker-compose.hrz.yml": "docker-compose.yml",
+              "certs_config.hrz.yaml": "certs_config.yaml",
+              "SC10_1": "TEMP_FOLDER"}
           },
           {
             "condition": "(sc-version == '9_3')",

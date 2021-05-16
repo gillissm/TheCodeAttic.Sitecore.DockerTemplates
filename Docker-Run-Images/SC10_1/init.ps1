@@ -30,6 +30,10 @@ Param (
     [string]
     $IDHost = "id.local",
 
+    # URL for horizon editing interface, should be a subdomain of the CM.
+    [string]
+    $HorizonHost="hrz.cm.local",
+
     [string]
     $SolrPort = "8995",
 
@@ -45,7 +49,11 @@ Param (
     # Relative path to source code for deployment, directory would be the target of custom code build output
     # Default: .\src
     [string]
-    $relativeSourcePath = ".\src"
+    $relativeSourcePath = ".\src",
+
+    # When included will set values for Horizon Host
+    [switch]
+    $IncludeHorizion
 )
 
 $ErrorActionPreference = "Stop";
@@ -114,6 +122,11 @@ Set-EnvFileVariable "CD_HOST" -Value $CDHost
 #ID_HOST
 Set-EnvFileVariable "ID_HOST" -Value $IDHost
 
+if($IncludeHorizion -or $HorizonHost -ne ""){
+    # HRZ_HOST
+    Set-EnvFileVariable "HRZ_HOST" -Value $HorizonHost
+}
+
 # COMPOSE_PROJECT_NAME
 Set-EnvFileVariable "COMPOSE_PROJECT_NAME" -Value $ComposeProjectName
 
@@ -145,11 +158,22 @@ try {
             throw "Invalid mkcert.exe file"
         }
     }
+   
+   if($IncludeHorizion -or $HorizonHost -ne ""){
     Write-Host "Generating Traefik TLS certificates..." -ForegroundColor Green
     & $mkcert -install
     & $mkcert -cert-file cm.crt -key-file cm.key "$CMHost"
     & $mkcert -cert-file cd.crt -key-file cd.key "$CDHost"
     & $mkcert -cert-file id.crt -key-file id.key "$IDHost"
+    & $mkcert -cert-file hrz.crt -key-file hrz.key "$HorizonHost"
+   }
+   else{
+    Write-Host "Generating Traefik TLS certificates..." -ForegroundColor Green
+    & $mkcert -install
+    & $mkcert -cert-file cm.crt -key-file cm.key "$CMHost"
+    & $mkcert -cert-file cd.crt -key-file cd.key "$CDHost"
+    & $mkcert -cert-file id.crt -key-file id.key "$IDHost"
+   }
 }
 catch {
     Write-Host "An error occurred while attempting to generate TLS certificates: $_" -ForegroundColor Red
@@ -167,10 +191,16 @@ Write-Host "Adding Windows hosts file entries..." -ForegroundColor Green
 Add-HostsEntry $CMHost
 Add-HostsEntry $CDHost
 Add-HostsEntry $IDHost
+if($IncludeHorizion -or $HorizonHost -ne ""){
+    Add-HostsEntry $HorizonHost
+}
 
 
 Write-Host ""
 Write-Host "CM url $CMHost" -BackgroundColor Gray -ForegroundColor Magenta
 Write-Host "CD url $CDHost" -BackgroundColor Gray -ForegroundColor Magenta
+if($IncludeHorizion -or $HorizonHost -ne ""){
+    Write-Host "Horizon url $HorizonHost" -BackgroundColor Gray -ForegroundColor Magenta
+}
 
 Write-Host "Done!" -ForegroundColor Green

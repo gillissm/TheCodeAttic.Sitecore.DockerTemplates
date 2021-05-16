@@ -82,6 +82,7 @@ services:
       Sitecore_Sitecore__IdentityServer__PublicOrigin: https://${ID_HOST}
       Sitecore_Sitecore__IdentityServer__CertificateRawDataPassword: ${SITECORE_ID_CERTIFICATE_PASSWORD}
       SITECORE_LICENSE_LOCATION: C:\license\license.xml
+      Sitecore_Sitecore__IdentityServer__Clients__DefaultClient__AllowedCorsOrigins__AllowedCorsOriginsGroup2: https://${HRZ_HOST}
     healthcheck:
       test: ["CMD", "powershell", "-command", "C:/Healthchecks/Healthcheck.ps1"]
       timeout: 300s
@@ -178,6 +179,7 @@ services:
       SOLR_CORE_PREFIX_NAME: ${SOLR_CORE_PREFIX_NAME}
       MEDIA_REQUEST_PROTECTION_SHARED_SECRET: ${MEDIA_REQUEST_PROTECTION_SHARED_SECRET}
       SITECORE_LICENSE_LOCATION: C:\license\license.xml
+      Sitecore_Horizon_ClientHost: https://${HRZ_HOST}
     volumes:
       - ${SITECORE_LICENSE_FOLDER}:c:\license
       - ${LOCAL_DEPLOY_PATH}:C:\deploy
@@ -286,3 +288,39 @@ services:
     healthcheck:
       test: ["CMD", "powershell", "-command", "C:/Healthchecks/Healthcheck.ps1 -Port 8080"]
       timeout: 300s
+      
+  hrz:
+    image: ${SITECORE_DOCKER_REGISTRY}modules/sitecore-horizon:2.26-20H2
+    isolation: ${ISOLATION}
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost/healthz/live"]
+      timeout: 300s
+    environment:
+      SITECORE_LICENSE_LOCATION: C:\license\license.xml
+      Sitecore_FederatedUI__HostBaseUrl: http://hrz
+      Sitecore_SitecorePlatform__ContentManagementUrl: https://${CM_HOST}
+      Sitecore_SitecorePlatform__ContentManagementInternalUrl: http://cm
+      Sitecore_Sitecore__Authentication__OpenIdConnectOptions__RequireHttpsMetadata: 'false'
+      Sitecore_Sitecore__Authentication__OpenIdConnectOptions__Authority: https://${ID_HOST}
+      Sitecore_Sitecore__Authentication__OpenIdConnectOptions__CallbackAuthority: https://${HRZ_HOST}
+      Sitecore_Sitecore__Authentication__OpenIdConnectOptions__InternalAuthority: http://id
+      Sitecore_Sitecore__Authentication__BearerAuthenticationOptions__Authority: https://${ID_HOST}
+      Sitecore_Sitecore__Authentication__BearerAuthenticationOptions__InternalAuthority: http://id
+      Sitecore_Sitecore__Authentication__BearerAuthenticationOptions__RequireHttpsMetadata: 'false'
+      Sitecore_Plugins__Filters__ExperienceAccelerator: +SXA
+    volumes:
+      - ${SITECORE_LICENSE_FOLDER}:c:\license
+    depends_on:
+      id:
+        condition: service_started
+      cm:
+        condition: service_started
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.middlewares.force-STS-Header.headers.forceSTSHeader=true"
+      - "traefik.http.middlewares.force-STS-Header.headers.stsSeconds=31536000"
+      - "traefik.http.routers.sh-secure.entrypoints=websecure"
+      - "traefik.http.routers.sh-secure.rule=Host(`${HRZ_HOST}`)"
+      - "traefik.http.routers.sh-secure.tls=true"
+      - "traefik.http.routers.sh-secure.middlewares=force-STS-Header"
+      - "traefik.http.services.sh.loadbalancer.server.port=80"

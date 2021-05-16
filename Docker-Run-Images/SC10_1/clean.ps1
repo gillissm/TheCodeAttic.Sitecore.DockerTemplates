@@ -56,6 +56,9 @@ function CleanupEnv {
   #ID_HOST
   Set-EnvFileVariable "ID_HOST" -Value "id.local"
 
+  #HRZ_HOST
+  Set-EnvFileVariable "HRZ_HOST" -Value "hrz.cm.local"
+
   # COMPOSE_PROJECT_NAME
   Set-EnvFileVariable "COMPOSE_PROJECT_NAME" -Value "I-NEED-A-VALUE"
 
