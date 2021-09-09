@@ -108,6 +108,27 @@ Two key next steps after creating this template, is to a) update the Project.env
 
 That is the bare details required to begin quickly standing up the files and folders required to create you own custom Sitecore docker images, and then to begin running them. I am working on more detailed documentation for each template set, as to key areas that require updating, but this should allow you to get experimenting.
 
+## Notes for Building and Running Locally
+
+For packaging into a NuGet package for testing
+
+1. Open PowerShell
+2. Ensure Nuget.exe is either on the path or you know where it is located
+3. Changed directory to the root of the repository, ie where this file is
+4. Run
+
+```powershell
+nuget pack -NoDefaultExcludes -version 2.0.2
+```
+
+5. Install the package for running
+
+```powershell
+dotnet new --install .\TheCodeAttic.Sitecore.DockerTemplates.2.0.2.nupkg
+```
+
+6. Run the dotnet new templates commands you want to work with
+
 ## References
 
 * [https://www.nuget.org/packages/TheCodeAttic.Sitecore.DockerTemplates](https://www.nuget.org/packages/TheCodeAttic.Sitecore.DockerTemplates/)
