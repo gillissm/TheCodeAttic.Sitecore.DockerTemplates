@@ -57,7 +57,7 @@
             "**/*.lock.json",
             "**/SC10_1/**",
             "**/SC9_3/**",
-            "**/SC10_0"
+            "**/SC10_0/**"
           ],
           "rename": {"SC10_2_Headless": "TEMP_FOLDER"}
         },
