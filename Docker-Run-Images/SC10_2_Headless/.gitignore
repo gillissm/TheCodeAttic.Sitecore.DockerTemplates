@@ -1,0 +1,16 @@
+/.vscode/*
+
+/docker/data/cm/*
+!/docker/data/cm/.gitkeep
+/docker/data/sql/*
+!/docker/data/sql/.gitkeep
+/docker/data/solr/*
+!/docker/data/solr/.gitkeep
+/docker/data/traefik/certs/*
+!/docker/data/traefik/certs/.gitkeep
+/docker/data/traefik/config/dynamic/*
+!/docker/data/traefik/config/dynamic/.gitkeep
+!/docker/deploy/platform/.gitkeep
+!/docker/deploy/.gitkeep
+/docker/.env
+!/src/*/.gitkeep
