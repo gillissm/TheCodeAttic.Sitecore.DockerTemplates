@@ -20,16 +20,20 @@
     "sc-version": {
       "type": "parameter",
       "datatype": "choice",
-      "defaultValue": "10_1",
+      "defaultValue": "10_2_headless",
       "isRequired": false,
       "choices": [
         {
-          "choice": "10_0",
-          "description": "SC 10.0 update 1"
+          "choice": "10_2_headless",
+          "description": "SC 10.2 Headless"
         },
         {
           "choice": "10_1",
           "description": "SC 10.1 update 0"
+        },
+        {
+          "choice": "10_0",
+          "description": "SC 10.0 update 1"
         },
         {
           "choice": "9_3",
@@ -42,6 +46,22 @@
     {
       "modifiers": [
         {
+          "condition": "(sc-version == '10_2_headless')",
+          "include": ["SC10_2_headless/**/**/**"],
+          "exclude": [
+            "**/[Bb]in/**",
+            "**/[Oo]bj/**",
+            ".template.config/**/*",
+            "**/*.filelist",
+            "**/*.user",
+            "**/*.lock.json",
+            "**/SC10_1/**",
+            "**/SC9_3/**",
+            "**/SC10_0"
+          ],
+          "rename": {"SC10_2_Headless": "TEMP_FOLDER"}
+        },
+        {
           "condition": "(sc-version == '10_0')",
           "include": ["SC10_0/**/**/**"],
           "exclude": [
@@ -52,7 +72,8 @@
             "**/*.user",
             "**/*.lock.json",
             "**/SC10_1/**",
-            "**/SC9_3/**"
+            "**/SC9_3/**",
+            "**/SC10_2_Headless"
           ],
           "rename": {"SC10_0": "TEMP_FOLDER"}
         },
@@ -67,7 +88,8 @@
             "**/*.user",
             "**/*.lock.json",
             "**/SC10_0/**",
-            "**/SC9_3/**"
+            "**/SC9_3/**",
+            "**/SC10_2_Headless"
           ],
           "rename": {"SC10_1": "TEMP_FOLDER"}
         },
@@ -82,7 +104,8 @@
             "**/*.user",
             "**/*.lock.json",
             "**/SC10_1/**",
-            "**/SC10_0/**"
+            "**/SC10_0/**",
+            "**/SC10_2_Headless"
           ],
           "rename": {"SC9_3": "TEMP_FOLDER"}
         }
