@@ -1,7 +1,10 @@
 version: "3.8"
 
 services:
-
+  spe-asset:
+    image: ${REGISTRY}${SPE_ASSET_IMAGE}:${VERZION:-latest}
+    build:
+      context: ./spe
   cd-base:
     image: ${REGISTRY}${COMPOSE_PROJECT_NAME}/cd-xm-base:${VERSION:-latest}
     build:
