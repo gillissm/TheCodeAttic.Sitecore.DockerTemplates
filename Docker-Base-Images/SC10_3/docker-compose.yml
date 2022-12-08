@@ -1,78 +1,87 @@
 version: "3.8"
 
 services:
+
+  cd-base:
+    image: ${REGISTRY}${COMPOSE_PROJECT_NAME}/cd-xm-base:${VERSION:-latest}
+    build:
+      context: ./cd
+      args:
+        PARENT_IMAGE: ${SITECORE_DOCKER_REGISTRY}${CD_BASE_IMAGE}:${SITECORE_VERSION}
+        TOOLS_IMAGE: ${SITECORE_TOOLS_REGISTRY}${SC_TOOLING_IMAGE}
+  cd-sxa:
+    image: ${REGISTRY}${COMPOSE_PROJECT_NAME}/cd-xm-sxa:${VERSION:-latest}
+    build:
+      context: ./cd/sxa
+      args:
+        PARENT_IMAGE: ${REGISTRY}${COMPOSE_PROJECT_NAME}/cd-xm-base:${VERSION:-latest}
+        SXA_IMAGE: ${SITECORE_MODULE_REGISTRY}${SXA_ASSET_IMAGE}
+  cd-sps:
+    image: ${REGISTRY}${COMPOSE_PROJECT_NAME}/cd-xm-sps:${VERSION:-latest}
+    build:
+      context: ./cd/sps
+      args:
+        PARENT_IMAGE: ${REGISTRY}${COMPOSE_PROJECT_NAME}/cd-xm-base:${VERSION:-latest}
+        PUBLISHING_SERVICES_IMAGE: ${SITECORE_MODULE_REGISTRY}${SPS_ASSET_IMAGE}
+  cd-sxa-sps:
+    image: ${REGISTRY}${COMPOSE_PROJECT_NAME}/cd-xm-sxa-sps:${VERSION:-latest}
+    build:
+      context: ./cd/sxa-sps
+      args:
+        PARENT_IMAGE: ${REGISTRY}${COMPOSE_PROJECT_NAME}/cd-xm-sxa:${VERSION:-latest}
+        SPS_IMAGE: ${SITECORE_MODULE_REGISTRY}${SPS_IMAGE}
+
   cm-base:
-    image:  ${REGISTRY}${COMPOSE_PROJECT_NAME}/cm-xm-spe:${VERSION:-latest}
+    image: ${REGISTRY}${COMPOSE_PROJECT_NAME}/cm-xm-base:${VERSION:-latest}
     build:
       context: ./cm
       args:
         PARENT_IMAGE: ${SITECORE_DOCKER_REGISTRY}${CM_BASE_IMAGE}:${SITECORE_VERSION}
         SPE_IMAGE: ${REGISTRY}${SPE_ASSET_IMAGE}
-        TOOLS_IMAGE: ${SITECORE_TOOLS_REGISTRY}${SC_TOOLING_IMAGE} 
+        TOOLS_IMAGE: ${SITECORE_TOOLS_REGISTRY}${SC_TOOLING_IMAGE}
         SMS_IMAGE: ${SITECORE_MODULE_REGISTRY}${SMS_ASSET_IMAGE}
-  cm-hrz:
-    image:  ${REGISTRY}${COMPOSE_PROJECT_NAME}/cm-xm-hrz:${VERSION:-latest}
+  cm-sxa:
+    image: ${REGISTRY}${COMPOSE_PROJECT_NAME}/cm-xm-sxa:${VERSION:-latest}
     build:
-      context: ./cm/hrz
+      context: ./cm/sxa
       args:
-        PARENT_IMAGE: ${REGISTRY}${COMPOSE_PROJECT_NAME}/cm-xm-spe:${VERSION:-latest}
-        HRZ_IMAGE: ${SITECORE_MODULE_REGISTRY}${HRZ_ASSET_IMAGE}
-  cm-hrz-headless:
-    image:  ${REGISTRY}${COMPOSE_PROJECT_NAME}/cm-xm-hrz-headless:${VERSION:-latest}
+        PARENT_IMAGE: ${REGISTRY}${COMPOSE_PROJECT_NAME}/cm-xm-base:${VERSION:-latest}
+        SXA_IMAGE: ${SITECORE_MODULE_REGISTRY}${SXA_ASSET_IMAGE}
+  cm-sxa-sps:
+    image: ${REGISTRY}${COMPOSE_PROJECT_NAME}/cm-xm-sxa-sps:${VERSION:-latest}
     build:
-      context: ./cm/headless
+      context: ./cm/sxa-sps
       args:
-        PARENT_IMAGE: ${REGISTRY}${COMPOSE_PROJECT_NAME}/cm-xm-hrz:${VERSION:-latest}
-        HEADLESS_SERVICES_IMAGE: ${SITECORE_MODULE_REGISTRY}${HEADLESS_SERVICES_IMAGE}
-  cm-headless:
-    image:  ${REGISTRY}${COMPOSE_PROJECT_NAME}/cm-xm-hrz:${VERSION:-latest}
-    build:
-      context: ./cm/headless
-      args:
-        PARENT_IMAGE: ${REGISTRY}${COMPOSE_PROJECT_NAME}/cm-xm-spe:${VERSION:-latest}
-        HEADLESS_SERVICES_IMAGE: ${SITECORE_MODULE_REGISTRY}${HEADLESS_SERVICES_IMAGE}
-  nodejs-asset:
-    image:  ${REGISTRY}${ASSET_PROJECT_NAME}/nodejs:${NODEJS_VERSION}-${VERSION} 
-    build:
-      context: ./nodejs/asset
-      args:
-        PARENT_IMAGE: ${NODEJS_BASE_IMAGE}
-        NODEJS_VERSION: ${NODEJS_VERSION}
-  nodejs-host:
-    image: ${REGISTRY}${COMPOSE_PROJECT_NAME}/nodejs-host:${NODEJS_VERSION}-${VERSION}
-    build:
-      context: ./nodejs
-      args:
-        PARENT_IMAGE: ${REGISTRY}${ASSET_PROJECT_NAME}/nodejs:${NODEJS_VERSION}-${VERSION}
-  sql-init-spe:
-    image:  ${REGISTRY}${COMPOSE_PROJECT_NAME}/sql-init-spe:${VERSION:-latest}
-    build:
-      context: ./sql/init
-      args:
-        PARENT_IMAGE: ${SITECORE_DOCKER_REGISTRY}${SQL_INIT_BASE_IMAGE}:${SITECORE_VERSION}
-        SPE_IMAGE: ${REGISTRY}${SPE_ASSET_IMAGE}
-  sql-init-headless:
-    image:  ${REGISTRY}${COMPOSE_PROJECT_NAME}/sql-init-hrz:${VERSION:-latest}
-    build:
-      context: ./sql/init-headless
-      args:
-        PARENT_IMAGE: ${REGISTRY}${COMPOSE_PROJECT_NAME}/sql-init-spe:${VERSION:-latest}
-        HEADLESS_SERVICES_IMAGE: ${SITECORE_MODULE_REGISTRY}${HEADLESS_SERVICES_IMAGE}
-  sql-base:
-    image:  ${REGISTRY}${COMPOSE_PROJECT_NAME}/sql-base:${VERSION:-latest}
+        PARENT_IMAGE: ${REGISTRY}${COMPOSE_PROJECT_NAME}/cm-xm-sxa:${VERSION:-latest}
+        SPS_IMAGE: ${SITECORE_MODULE_REGISTRY}${SPS_IMAGE}
+  sql-init-base:
+    image:  ${REGISTRY}${COMPOSE_PROJECT_NAME}/sql-init-base:${VERSION:-latest}
     build:
       context: .
       args:
-        PARENT_IMAGE: ${SITECORE_DOCKER_REGISTRY}nonproduction/mssql-developer:2017-${SITECORE_VERSION}
+        PARENT_IMAGE: ${SITECORE_DOCKER_REGISTRY}${SQL_INIT_BASE_IMAGE}:${SITECORE_VERSION}
+  sql-base:
+    image: ${REGISTRY}${COMPOSE_PROJECT_NAME}/sql-base:${VERSION:-latest}
+    build:
+      context: .
+      args:
+        PARENT_IMAGE: ${SITECORE_DOCKER_REGISTRY}nonproduction/mssql-developer:2017-ltsc2019
   solr-init:
     image: ${REGISTRY}${COMPOSE_PROJECT_NAME}/solr-init:${VERSION:-latest}
     build:
       context: .
       args:
         PARENT_IMAGE: ${SITECORE_DOCKER_REGISTRY}${SOLR_INIT_BASE_IMAGE}:${SITECORE_VERSION}
+  solr-init-sxa:
+    image: ${REGISTRY}${COMPOSE_PROJECT_NAME}/solr-init:${VERSION:-latest}
+    build:
+      context: ./solr-init/sxa
+      args:
+        PARENT_IMAGE: ${REGISTRY}${COMPOSE_PROJECT_NAME}/solr-init:${VERSION:-latest}
+        SXA_IMAGE: ${SITECORE_MODULE_REGISTRY}${SXA_ASSET_IMAGE}
   solr-base:
     image: ${REGISTRY}${COMPOSE_PROJECT_NAME}/solr-base:${VERSION:-latest}
     build:
       context: .
       args:
-        PARENT_IMAGE: ${SITECORE_DOCKER_REGISTRY}nonproduction/solr:8.8.2-${SITECORE_VERSION}
+        PARENT_IMAGE: ${SITECORE_DOCKER_REGISTRY}nonproduction/solr:8.11.2-ltsc2019

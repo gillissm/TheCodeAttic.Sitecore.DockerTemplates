@@ -21,4 +21,4 @@ COPY --from=tools C:\tools C:\tools
 COPY --from=management_services C:\module\cm\content C:\inetpub\wwwroot
 
 # Add SPE module
-COPY --from=spe \module\cm\content .\
+COPY --from=spe \module\cm\content C:\inetpub\wwwroot
