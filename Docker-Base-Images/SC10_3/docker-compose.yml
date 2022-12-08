@@ -73,7 +73,7 @@ services:
       args:
         PARENT_IMAGE: ${SITECORE_DOCKER_REGISTRY}${SOLR_INIT_BASE_IMAGE}:${SITECORE_VERSION}
   solr-init-sxa:
-    image: ${REGISTRY}${COMPOSE_PROJECT_NAME}/solr-init:${VERSION:-latest}
+    image: ${REGISTRY}${COMPOSE_PROJECT_NAME}/solr-init-sxa:${VERSION:-latest}
     build:
       context: ./solr-init/sxa
       args:
