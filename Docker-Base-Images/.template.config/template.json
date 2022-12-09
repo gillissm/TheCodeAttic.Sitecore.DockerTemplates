@@ -62,13 +62,13 @@
             "**/SC10_1/**",
             "**/SC9_3/**",
             "**/SC10_0/**",
-            "**/SC10_2_headless/**"
+            "**/SC10_2_Headless/**"
           ],
           "rename": {"SC10_3": "TEMP_FOLDER"}
         },
         {
           "condition": "(sc-version == '10_2_headless')",
-          "include": ["SC10_2_headless/**/**/**"],
+          "include": ["SC10_2_Headless/**/**/**"],
           "exclude": [
             "**/[Bb]in/**",
             "**/[Oo]bj/**",

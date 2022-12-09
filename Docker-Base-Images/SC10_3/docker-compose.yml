@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
   spe-asset:
-    image: ${REGISTRY}${SPE_ASSET_IMAGE}:${VERZION:-latest}
+    image: ${REGISTRY}${SPE_ASSET_IMAGE}
     build:
       context: ./spe
   cd-base:
@@ -25,14 +25,14 @@ services:
       context: ./cd/sps
       args:
         PARENT_IMAGE: ${REGISTRY}${COMPOSE_PROJECT_NAME}/cd-xm-base:${VERSION:-latest}
-        PUBLISHING_SERVICES_IMAGE: ${SITECORE_MODULE_REGISTRY}${SPS_ASSET_IMAGE}
+        SPS_IMAGE: ${SITECORE_MODULE_REGISTRY}${SPS_ASSET_IMAGE}
   cd-sxa-sps:
     image: ${REGISTRY}${COMPOSE_PROJECT_NAME}/cd-xm-sxa-sps:${VERSION:-latest}
     build:
-      context: ./cd/sxa-sps
+      context: ./cd/sps
       args:
         PARENT_IMAGE: ${REGISTRY}${COMPOSE_PROJECT_NAME}/cd-xm-sxa:${VERSION:-latest}
-        SPS_IMAGE: ${SITECORE_MODULE_REGISTRY}${SPS_IMAGE}
+        SPS_IMAGE: ${SITECORE_MODULE_REGISTRY}${SPS_ASSET_IMAGE}
 
   cm-base:
     image: ${REGISTRY}${COMPOSE_PROJECT_NAME}/cm-xm-base:${VERSION:-latest}
@@ -50,13 +50,20 @@ services:
       args:
         PARENT_IMAGE: ${REGISTRY}${COMPOSE_PROJECT_NAME}/cm-xm-base:${VERSION:-latest}
         SXA_IMAGE: ${SITECORE_MODULE_REGISTRY}${SXA_ASSET_IMAGE}
+  cm-sps:
+    image: ${REGISTRY}${COMPOSE_PROJECT_NAME}/cm-xm-sps:${VERSION:-latest}
+    build:
+      context: ./cm/sps
+      args:
+        PARENT_IMAGE: ${REGISTRY}${COMPOSE_PROJECT_NAME}/cm-xm-base:${VERSION:-latest}
+        SPS_IMAGE: ${SITECORE_MODULE_REGISTRY}${SPS_ASSET_IMAGE}
   cm-sxa-sps:
     image: ${REGISTRY}${COMPOSE_PROJECT_NAME}/cm-xm-sxa-sps:${VERSION:-latest}
     build:
-      context: ./cm/sxa-sps
+      context: ./cm/sps
       args:
         PARENT_IMAGE: ${REGISTRY}${COMPOSE_PROJECT_NAME}/cm-xm-sxa:${VERSION:-latest}
-        SPS_IMAGE: ${SITECORE_MODULE_REGISTRY}${SPS_IMAGE}
+        SPS_IMAGE: ${SITECORE_MODULE_REGISTRY}${SPS_ASSET_IMAGE}
   sql-init-base:
     image:  ${REGISTRY}${COMPOSE_PROJECT_NAME}/sql-init-base:${VERSION:-latest}
     build:

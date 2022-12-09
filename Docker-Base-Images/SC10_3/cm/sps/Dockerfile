@@ -12,5 +12,3 @@ WORKDIR C:\inetpub\wwwroot
 
 # Copy publishing service module
 COPY --from=publishing_services C:\module\cm\content C:\inetpub\wwwroot
-
-RUN Remove-Item -Path C:\inetpub\wwwroot\App_Config\Modules\PublishingService\Sitecore.Publishing.Service.SingleLinkDatabase.config -Force;

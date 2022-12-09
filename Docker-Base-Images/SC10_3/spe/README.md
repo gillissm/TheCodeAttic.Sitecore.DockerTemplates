@@ -16,10 +16,11 @@ Depending on the module not all steps maybe required.
 
 ```graph
 \---module
-    +---content
-    |   +---cd
-    |   \---cm
-    \---db
+    \---cd
+    |   +---content
+    \---cm
+    |   +---content
+    +---db
 ```
 
 4. Navigate to */package/files/*, copy the contents to the proper content sub-directory depending on which servers you will need the file assets.
