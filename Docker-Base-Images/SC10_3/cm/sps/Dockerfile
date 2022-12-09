@@ -1,5 +1,8 @@
 # escape=`
 
+# This layers on a Publishing Services Assets onto a CM image
+
+
 ARG PARENT_IMAGE
 ARG SPS_IMAGE
 

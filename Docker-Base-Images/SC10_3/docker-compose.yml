@@ -19,6 +19,13 @@ services:
       args:
         PARENT_IMAGE: ${REGISTRY}${COMPOSE_PROJECT_NAME}/cd-xm-base:${VERSION:-latest}
         SXA_IMAGE: ${SITECORE_MODULE_REGISTRY}${SXA_ASSET_IMAGE}
+  cd-jss:
+    image: ${REGISTRY}${COMPOSE_PROJECT_NAME}/cd-xm-jss:${VERSION:-latest}
+    build:
+      context: ./cd/jss
+      args:
+        PARENT_IMAGE: ${REGISTRY}${COMPOSE_PROJECT_NAME}/cd-xm-sxa:${VERSION:-latest}
+        JSS_IMAGE: ${SITECORE_MODULE_REGISTRY}${JSS_ASSET_IMAGE}
   cd-sps:
     image: ${REGISTRY}${COMPOSE_PROJECT_NAME}/cd-xm-sps:${VERSION:-latest}
     build:
@@ -50,6 +57,13 @@ services:
       args:
         PARENT_IMAGE: ${REGISTRY}${COMPOSE_PROJECT_NAME}/cm-xm-base:${VERSION:-latest}
         SXA_IMAGE: ${SITECORE_MODULE_REGISTRY}${SXA_ASSET_IMAGE}
+  cm-jss:
+    image: ${REGISTRY}${COMPOSE_PROJECT_NAME}/cm-xm-jss:${VERSION:-latest}
+    build:
+      context: ./cm/jss
+      args:
+        PARENT_IMAGE: ${REGISTRY}${COMPOSE_PROJECT_NAME}/cm-xm-sxa:${VERSION:-latest}
+        JSS_IMAGE: ${SITECORE_MODULE_REGISTRY}${JSS_ASSET_IMAGE}
   cm-sps:
     image: ${REGISTRY}${COMPOSE_PROJECT_NAME}/cm-xm-sps:${VERSION:-latest}
     build:
