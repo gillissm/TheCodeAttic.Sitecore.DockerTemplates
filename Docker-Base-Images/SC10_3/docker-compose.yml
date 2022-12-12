@@ -25,7 +25,7 @@ services:
       context: ./cd/jss
       args:
         PARENT_IMAGE: ${REGISTRY}${COMPOSE_PROJECT_NAME}/cd-xm-sxa:${VERSION:-latest}
-        JSS_IMAGE: ${SITECORE_MODULE_REGISTRY}${JSS_ASSET_IMAGE}
+        JSS_IMAGE: ${SITECORE_MODULE_REGISTRY}${HEADLESS_ASSET_IMAGE}
   cd-sps:
     image: ${REGISTRY}${COMPOSE_PROJECT_NAME}/cd-xm-sps:${VERSION:-latest}
     build:
@@ -63,7 +63,7 @@ services:
       context: ./cm/jss
       args:
         PARENT_IMAGE: ${REGISTRY}${COMPOSE_PROJECT_NAME}/cm-xm-sxa:${VERSION:-latest}
-        JSS_IMAGE: ${SITECORE_MODULE_REGISTRY}${JSS_ASSET_IMAGE}
+        JSS_IMAGE: ${SITECORE_MODULE_REGISTRY}${HEADLESS_ASSET_IMAGE}
   cm-sps:
     image: ${REGISTRY}${COMPOSE_PROJECT_NAME}/cm-xm-sps:${VERSION:-latest}
     build:
