@@ -1,0 +1,111 @@
+version: "3.8"
+
+services:
+  spe-asset:
+    image: ${REGISTRY}${SPE_ASSET_IMAGE}
+    build:
+      context: ./spe
+  cd-base:
+    image: ${REGISTRY}${COMPOSE_PROJECT_NAME}/cd-xm-base:${VERSION:-latest}
+    build:
+      context: ./cd
+      args:
+        PARENT_IMAGE: ${SITECORE_DOCKER_REGISTRY}${CD_BASE_IMAGE}:${SITECORE_VERSION}
+        TOOLS_IMAGE: ${SITECORE_TOOLS_REGISTRY}${SC_TOOLING_IMAGE}
+  cd-sxa:
+    image: ${REGISTRY}${COMPOSE_PROJECT_NAME}/cd-xm-sxa:${VERSION:-latest}
+    build:
+      context: ./cd/sxa
+      args:
+        PARENT_IMAGE: ${REGISTRY}${COMPOSE_PROJECT_NAME}/cd-xm-base:${VERSION:-latest}
+        SXA_IMAGE: ${SITECORE_MODULE_REGISTRY}${SXA_ASSET_IMAGE}
+  cd-jss:
+    image: ${REGISTRY}${COMPOSE_PROJECT_NAME}/cd-xm-jss:${VERSION:-latest}
+    build:
+      context: ./cd/jss
+      args:
+        PARENT_IMAGE: ${REGISTRY}${COMPOSE_PROJECT_NAME}/cd-xm-sxa:${VERSION:-latest}
+        JSS_IMAGE: ${SITECORE_MODULE_REGISTRY}${JSS_ASSET_IMAGE}
+  cd-sps:
+    image: ${REGISTRY}${COMPOSE_PROJECT_NAME}/cd-xm-sps:${VERSION:-latest}
+    build:
+      context: ./cd/sps
+      args:
+        PARENT_IMAGE: ${REGISTRY}${COMPOSE_PROJECT_NAME}/cd-xm-base:${VERSION:-latest}
+        SPS_IMAGE: ${SITECORE_MODULE_REGISTRY}${SPS_ASSET_IMAGE}
+  cd-sxa-sps:
+    image: ${REGISTRY}${COMPOSE_PROJECT_NAME}/cd-xm-sxa-sps:${VERSION:-latest}
+    build:
+      context: ./cd/sps
+      args:
+        PARENT_IMAGE: ${REGISTRY}${COMPOSE_PROJECT_NAME}/cd-xm-sxa:${VERSION:-latest}
+        SPS_IMAGE: ${SITECORE_MODULE_REGISTRY}${SPS_ASSET_IMAGE}
+
+  cm-base:
+    image: ${REGISTRY}${COMPOSE_PROJECT_NAME}/cm-xm-base:${VERSION:-latest}
+    build:
+      context: ./cm
+      args:
+        PARENT_IMAGE: ${SITECORE_DOCKER_REGISTRY}${CM_BASE_IMAGE}:${SITECORE_VERSION}
+        SPE_IMAGE: ${REGISTRY}${SPE_ASSET_IMAGE}
+        TOOLS_IMAGE: ${SITECORE_TOOLS_REGISTRY}${SC_TOOLING_IMAGE}
+        SMS_IMAGE: ${SITECORE_MODULE_REGISTRY}${SMS_ASSET_IMAGE}
+  cm-sxa:
+    image: ${REGISTRY}${COMPOSE_PROJECT_NAME}/cm-xm-sxa:${VERSION:-latest}
+    build:
+      context: ./cm/sxa
+      args:
+        PARENT_IMAGE: ${REGISTRY}${COMPOSE_PROJECT_NAME}/cm-xm-base:${VERSION:-latest}
+        SXA_IMAGE: ${SITECORE_MODULE_REGISTRY}${SXA_ASSET_IMAGE}
+  cm-jss:
+    image: ${REGISTRY}${COMPOSE_PROJECT_NAME}/cm-xm-jss:${VERSION:-latest}
+    build:
+      context: ./cm/jss
+      args:
+        PARENT_IMAGE: ${REGISTRY}${COMPOSE_PROJECT_NAME}/cm-xm-sxa:${VERSION:-latest}
+        JSS_IMAGE: ${SITECORE_MODULE_REGISTRY}${JSS_ASSET_IMAGE}
+  cm-sps:
+    image: ${REGISTRY}${COMPOSE_PROJECT_NAME}/cm-xm-sps:${VERSION:-latest}
+    build:
+      context: ./cm/sps
+      args:
+        PARENT_IMAGE: ${REGISTRY}${COMPOSE_PROJECT_NAME}/cm-xm-base:${VERSION:-latest}
+        SPS_IMAGE: ${SITECORE_MODULE_REGISTRY}${SPS_ASSET_IMAGE}
+  cm-sxa-sps:
+    image: ${REGISTRY}${COMPOSE_PROJECT_NAME}/cm-xm-sxa-sps:${VERSION:-latest}
+    build:
+      context: ./cm/sps
+      args:
+        PARENT_IMAGE: ${REGISTRY}${COMPOSE_PROJECT_NAME}/cm-xm-sxa:${VERSION:-latest}
+        SPS_IMAGE: ${SITECORE_MODULE_REGISTRY}${SPS_ASSET_IMAGE}
+  sql-init-base:
+    image:  ${REGISTRY}${COMPOSE_PROJECT_NAME}/sql-init-base:${VERSION:-latest}
+    build:
+      context: .
+      args:
+        PARENT_IMAGE: ${SITECORE_DOCKER_REGISTRY}${SQL_INIT_BASE_IMAGE}:${SITECORE_VERSION}
+  sql-base:
+    image: ${REGISTRY}${COMPOSE_PROJECT_NAME}/sql-base:${VERSION:-latest}
+    build:
+      context: .
+      args:
+        PARENT_IMAGE: ${SITECORE_DOCKER_REGISTRY}nonproduction/mssql-developer:2017-ltsc2019
+  solr-init:
+    image: ${REGISTRY}${COMPOSE_PROJECT_NAME}/solr-init:${VERSION:-latest}
+    build:
+      context: .
+      args:
+        PARENT_IMAGE: ${SITECORE_DOCKER_REGISTRY}${SOLR_INIT_BASE_IMAGE}:${SITECORE_VERSION}
+  solr-init-sxa:
+    image: ${REGISTRY}${COMPOSE_PROJECT_NAME}/solr-init-sxa:${VERSION:-latest}
+    build:
+      context: ./solr-init/sxa
+      args:
+        PARENT_IMAGE: ${REGISTRY}${COMPOSE_PROJECT_NAME}/solr-init:${VERSION:-latest}
+        SXA_IMAGE: ${SITECORE_MODULE_REGISTRY}${SXA_ASSET_IMAGE}
+  solr-base:
+    image: ${REGISTRY}${COMPOSE_PROJECT_NAME}/solr-base:${VERSION:-latest}
+    build:
+      context: .
+      args:
+        PARENT_IMAGE: ${SITECORE_DOCKER_REGISTRY}nonproduction/solr:8.11.2-ltsc2019

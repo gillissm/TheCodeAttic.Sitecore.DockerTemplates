@@ -16,9 +16,13 @@
       "sc-version": {
         "type": "parameter",
         "datatype": "choice",
-        "defaultValue": "10_2_headless",
+        "defaultValue": "10_3",
         "isRequired": false,
         "choices": [
+          {
+            "choice": "10_3",
+            "description": "SC 10.3.0 Initial Release"
+          },
           {
             "choice": "10_2_headless",
             "description": "SC 10.2 Headless"
@@ -48,6 +52,23 @@
       {
         "modifiers": [
           {
+            "condition": "(sc-version == '10_3')",
+            "include": ["SC10_3/**/**/*"],
+            "exclude": [
+              "**/[Bb]in/**",
+              "**/[Oo]bj/**",
+              ".template.config/**/*",
+              "**/*.filelist",
+              "**/*.user",
+              "**/*.lock.json",
+              "**/SC10_1/**",
+              "**/SC9_3/**",
+              "**/SC10_0/**",
+              "**/SC10_2_Headless/**"
+            ],
+            "rename": {"SC10_3": "TEMP_FOLDER"}
+          },
+          {
             "condition": "(sc-version == '10_2_headless')",
             "include": ["SC10_2_Headless/**/**/*"],
             "exclude": [
@@ -59,7 +80,8 @@
               "**/*.lock.json",
               "**/SC10_1/**",
               "**/SC9_3/**",
-              "**/SC10_0/**"
+              "**/SC10_0/**",
+              "**/SC10_3/**"
             ],
             "rename": {"SC10_2_Headless": "TEMP_FOLDER"}
           },
@@ -76,7 +98,8 @@
               "**/SC10_1/**",
               "**/SC9_3/**",
               "*.hrz.*",
-              "**/SC10_2_Headless"
+              "**/SC10_2_Headless/**",              
+              "**/SC10_3/**"
             ],
             "rename": {"SC10_0": "TEMP_FOLDER"}
           },
@@ -94,7 +117,8 @@
               "**/SC9_3/**",
               "SC10_1/data/traefik/config/dynamic/certs_config.hrz.yaml",
               "SC10_1/docker-compose.hrz.yml",
-              "**/SC10_2_Headless"
+              "**/SC10_2_Headless/**",
+              "**/SC10_3/**"
             ],
             "rename": {"SC10_1": "TEMP_FOLDER"}
           },
@@ -112,7 +136,8 @@
               "**/SC9_3/**",
               "SC10_1/data/traefik/config/dynamic/certs_config.yaml",
               "SC10_1/docker-compose.yml",
-              "**/SC10_2_Headless"
+              "**/SC10_2_Headless/**",
+              "**/SC10_3/**"
             ],
             "rename": {
               "docker-compose.hrz.yml": "docker-compose.yml",
@@ -131,7 +156,8 @@
               "**/*.lock.json",
               "**/SC10_1/**",
               "**/SC10_0/**",
-              "**/SC10_2_Headless"
+              "**/SC10_2_Headless/**",
+              "**/SC10_3/**"
             ],
             "rename": {"SC9_3": "TEMP_FOLDER"}
           }
